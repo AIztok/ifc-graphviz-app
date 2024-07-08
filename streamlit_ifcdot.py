@@ -3,9 +3,8 @@ import ifcopenshell
 import ifcopenshell.util.element
 import tempfile
 import os
+import requests
 import graphviz as gv
-from PIL import Image
-import io
 
 # Function to write .dot file from IFC file
 def write_dot(ifc_file, path_dot, interest=set()):
@@ -169,7 +168,16 @@ st.markdown("""
 with the use of the powerful libraries [IfcOpenShell](https://ifcopenshell.org/) and [Graphviz](https://graphviz.org/).
 """)
 
+# File uploader for user-uploaded IFC files
 uploaded_file = st.file_uploader("Choose an IFC file", type=["ifc"])
+
+# Dropdown for example IFC files
+example_files = {
+    "Streifenfundamente": "https://github.com/AIztok/ifc-graphviz-app/raw/main/Examples/Streifenfundamente.ifc"
+}
+
+example_file_choice = st.selectbox("Or select an example IFC file", list(example_files.keys()))
+
 if uploaded_file is not None:
     st.write("File uploaded successfully")
     
@@ -180,7 +188,18 @@ if uploaded_file is not None:
     
     # Open the IFC file using ifcopenshell
     ifc_file = ifcopenshell.open(tmp_file_path)
+
+elif example_file_choice:
+    url = example_files[example_file_choice]
+    response = requests.get(url)
+    with tempfile.NamedTemporaryFile(delete=False) as tmp_file:
+        tmp_file.write(response.content)
+        tmp_file_path = tmp_file.name
     
+    # Open the IFC file using ifcopenshell
+    ifc_file = ifcopenshell.open(tmp_file_path)
+
+if 'ifc_file' in locals():
     # Define the path for the output .dot file
     dot_path = os.path.join(tempfile.gettempdir(), "output_graph.dot")
     
