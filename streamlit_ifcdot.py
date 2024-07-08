@@ -193,6 +193,21 @@ if uploaded_file is not None:
     
     import graphviz as gv
     graph = gv.Source(dot_content)
+    
+        # Provide a download button for the PNG file
+    try:
+        png_path = os.path.join(tempfile.gettempdir(), "output_graph.png")
+        graph.format = 'png'
+        graph.render(png_path)
+
+        with open(png_path + '.png', 'rb') as file:
+            png_content = file.read()
+        
+        st.download_button(label="Download PNG file", data=png_content, file_name="output_graph.png", mime="image/png")
+    except gv.backend.ExecutableNotFound as e:
+        st.error("Graphviz executable not found. Ensure that Graphviz is installed and added to the system PATH.")
+        st.error(str(e))
+        
     st.graphviz_chart(graph.source)
 
 st.markdown("""
