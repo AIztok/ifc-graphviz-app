@@ -186,9 +186,9 @@ uploaded_file = st.file_uploader("Choose an IFC file", type=["ifc"])
 # Dropdown for example IFC files
 example_files = {
     "Streifenfundamente": "https://github.com/AIztok/ifc-graphviz-app/raw/main/Examples/Streifenfundamente.ifc",
-    "Halbrahmen": "https://github.com/AIztok/ifc-graphviz-app/raw/main/Examples/Halbrahmen.ifc",    
+    "Halbrahmen": "https://github.com/AIztok/ifc-graphviz-app/raw/main/Examples/Halbrahmen_240704.ifc",    
     "AC20-FZK-Haus": "https://github.com/AIztok/ifc-graphviz-app/raw/main/Examples/AC20-FZK-Haus.ifc",    
-    "4D": "https://github.com/AIztok/ifc-graphviz-app/raw/main/Examples/4D.ifc" 
+    "3D": "https://github.com/AIztok/ifc-graphviz-app/raw/main/Examples/3D.ifc" 
 }
 
 example_file_choice = st.selectbox("Or select an example IFC file", list(example_files.keys()))
